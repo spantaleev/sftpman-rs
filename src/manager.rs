@@ -389,6 +389,17 @@ impl Manager {
 
         let path = self.config_path_for_definition_id(&definition.id);
 
+        let config_dir_path = path.parent().expect("Config directory path should have a parent");
+
+        if !config_dir_path.exists() {
+            log::info!("Config directory {} does not exist, attempting to create it", config_dir_path.display());
+
+            if let Err(err) = fs::create_dir_all(config_dir_path) {
+                log::error!("Failed to create config directory {}: {}", config_dir_path.display(), err);
+                return Err(SftpManError::IO(path.clone(), err));
+            }
+        }
+
         let serialized = definition
             .to_json_string()
             .map_err(|err| SftpManError::JSON(path.clone(), err))?;
