@@ -9,7 +9,7 @@ readme = "README.md"
 keywords = ["sftp", "sshfs", "fuse"]
 categories = ["command-line-utilities", "network-programming", "filesystem"]
 include = ["/src", "/README.md", "/CHANGELOG.md", "/LICENSE"]
-version = "2.0.0"
+version = "2.0.1"
 edition = "2021"
 
 [lib]
