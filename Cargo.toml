@@ -4,12 +4,12 @@ description = "A CLI application and library for managing and mounting sshfs (SF
 authors = ["Slavi Pantaleev <slavi@devture.com>"]
 homepage = "https://github.com/spantaleev/sftpman-rs"
 repository = "https://github.com/spantaleev/sftpman-rs"
-license = "GPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
 readme = "README.md"
 keywords = ["sftp", "sshfs", "fuse"]
 categories = ["command-line-utilities", "network-programming", "filesystem"]
 include = ["/src", "/README.md", "/CHANGELOG.md", "/LICENSE"]
-version = "2.0.1"
+version = "2.0.2"
 edition = "2021"
 
 [lib]

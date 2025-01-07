@@ -1,3 +1,7 @@
+# 2025-01-07 (Version 2.0.2)
+
+- (**Bugfix**) Fix license information discrepancy (GPL v3 -> AGPLv3).
+
 # 2025-01-07 (Version 2.0.1)
 
 - (**Bugfix**) Make persisting ensure config directory path (`$XDG_CONFIG_HOME/sftpman/mounts`) is created. Fixes [issue #1](https://github.com/spantaleev/sftpman-rs/issues/1).
