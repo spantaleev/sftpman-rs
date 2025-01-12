@@ -204,12 +204,16 @@ impl FilesystemMountDefinition {
 
         let mut cmd_sshfs = Command::new("sshfs");
         cmd_sshfs
+            // Add mount options prefixed with "-o" (ignored if empty).
+            .args(self.mount_options.iter().flat_map(|opt| ["-o", opt]))
+            // Add the formatted SSH command as an sshfs option.
             .arg("-o")
             .arg(format!("ssh_command={0}", command_to_string(&cmd_ssh)))
             .arg(format!(
                 "{0}@{1}:{2}",
                 self.user, self.host, self.remote_path
             ))
+            // Set the local mount point for the remote directory.
             .arg(self.local_mount_path());
 
         list.push(cmd_sshfs);
