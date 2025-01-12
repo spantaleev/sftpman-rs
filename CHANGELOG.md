@@ -1,3 +1,7 @@
+# 2025-01-12 (Version 2.0.3)
+
+- (**Bugfix**) Fix mount options not being added when constructing the `sshfs` command ([PR #2](https://github.com/spantaleev/sftpman-rs/pull/2) by [Roald Clark](https://github.com/roaldclark)).
+
 # 2025-01-07 (Version 2.0.2)
 
 - (**Bugfix**) Fix license information discrepancy (GPL v3 -> AGPLv3).
