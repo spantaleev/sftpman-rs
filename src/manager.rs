@@ -37,7 +37,10 @@ impl Manager {
         let dir_path = self.config_path_mounts();
 
         if !dir_path.is_dir() {
-            log::debug!("Mount config directory {0} doesn't exist. Returning an empty definitions list ...", dir_path.display());
+            log::debug!(
+                "Mount config directory {0} doesn't exist. Returning an empty definitions list ...",
+                dir_path.display()
+            );
             return Ok(vec![]);
         }
 
@@ -390,13 +393,22 @@ impl Manager {
 
         let path = self.config_path_for_definition_id(&definition.id);
 
-        let config_dir_path = path.parent().expect("Config directory path should have a parent");
+        let config_dir_path = path
+            .parent()
+            .expect("Config directory path should have a parent");
 
         if !config_dir_path.exists() {
-            log::info!("Config directory {} does not exist, attempting to create it", config_dir_path.display());
+            log::info!(
+                "Config directory {} does not exist, attempting to create it",
+                config_dir_path.display()
+            );
 
             if let Err(err) = fs::create_dir_all(config_dir_path) {
-                log::error!("Failed to create config directory {}: {}", config_dir_path.display(), err);
+                log::error!(
+                    "Failed to create config directory {}: {}",
+                    config_dir_path.display(),
+                    err
+                );
                 return Err(SftpManError::IO(path.clone(), err));
             }
         }
