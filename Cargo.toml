@@ -18,17 +18,17 @@ path = "src/lib.rs"
 
 [dependencies]
 clap = { version = "4.5.*", optional = true }
-directories = { version = "5.0.*" }
+directories = { version = "6.0.*" }
 env_logger = { version = "0.11.*" }
 log = "0.4.*"
 mnt = "0.3.*"
 nix = { version = "0.29.*", features = ["signal"], default-features = false }
 procfs = "0.17.*"
-rand = "0.8.*"
+rand = "0.9.*"
 serde = { version = "1.0.*", features = ["derive"], default-features = false }
 serde_json = "1.0.*"
 thiserror = "2.0.*"
-validator = { version = "0.19.*", features = ["derive"] }
+validator = { version = "0.20.*", features = ["derive"] }
 
 [features]
 default = ["cli"]
