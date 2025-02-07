@@ -37,7 +37,8 @@ impl Manager {
         let dir_path = self.config_path_mounts();
 
         if !dir_path.is_dir() {
-            return Err(SftpManError::NoMountsConfigDirectory);
+            log::debug!("Mount config directory {0} doesn't exist. Returning an empty definitions list ...", dir_path.display());
+            return Ok(vec![]);
         }
 
         let mut list: Vec<FilesystemMountDefinition> = Vec::new();
