@@ -1,3 +1,9 @@
+# 2025-02-07 (Version 2.0.4)
+
+- Dependency updates
+
+- (**Bugfix**) Not erroring-out when the mounts configuration directory (e.g. `~/.config/sftpman/mounts`) doesn't exist yet (which is the case for new installations)
+
 # 2025-01-12 (Version 2.0.3)
 
 - (**Bugfix**) Fix mount options not being added when constructing the `sshfs` command ([PR #2](https://github.com/spantaleev/sftpman-rs/pull/2) by [Roald Clark](https://github.com/roaldclark)).
