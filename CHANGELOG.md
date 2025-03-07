@@ -1,3 +1,7 @@
+# 2025-03-07 (Version 2.0.5)
+
+- (**Bugfix**) Wrapping hosts in `[]` when passing them to the `sshfs` command to allow usage with IPv6 addresses
+
 # 2025-02-07 (Version 2.0.4)
 
 - Dependency updates
