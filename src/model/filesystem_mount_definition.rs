@@ -209,8 +209,10 @@ impl FilesystemMountDefinition {
             // Add the formatted SSH command as an sshfs option.
             .arg("-o")
             .arg(format!("ssh_command={0}", command_to_string(&cmd_ssh)))
+            // We use `[]` around the host to avoid issues with hostnames (IPv6 addresses) containing `:`.
+            // This also works well for IPv4 addresses and name-based hostnames.
             .arg(format!(
-                "{0}@{1}:{2}",
+                "{0}@[{1}]:{2}",
                 self.user, self.host, self.remote_path
             ))
             // Set the local mount point for the remote directory.
