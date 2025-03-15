@@ -31,7 +31,7 @@ pub fn sshfs_pid_by_definition(
             }
 
             let expected_arg = format!(
-                "{0}@{1}:{2}",
+                "{0}@[{1}]:{2}",
                 definition.user, definition.host, definition.remote_path
             );
 
