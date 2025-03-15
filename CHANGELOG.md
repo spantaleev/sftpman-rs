@@ -1,3 +1,7 @@
+# 2025-03-15 (Version 2.0.6)
+
+- (**Bugfix**) Fix regression (introduced in v2.0.5) in process ID detection of `sshfs` commands to allow force-unmounting busy filesystems
+
 # 2025-03-07 (Version 2.0.5)
 
 - (**Bugfix**) Wrapping hosts in `[]` when passing them to the `sshfs` command to allow usage with IPv6 addresses
