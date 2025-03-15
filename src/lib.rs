@@ -11,7 +11,7 @@ mod utils;
 pub use auth_type::AuthType;
 pub use errors::{ManagerInitError, PreflightCheckError, SftpManError};
 pub use manager::Manager;
-pub use model::{FilesystemMountDefinition, MountState, DEFAULT_MOUNT_PATH_PREFIX};
+pub use model::{DEFAULT_MOUNT_PATH_PREFIX, FilesystemMountDefinition, MountState};
 
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 

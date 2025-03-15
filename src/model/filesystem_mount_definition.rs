@@ -7,7 +7,7 @@ use validator::{Validate, ValidationError};
 use crate::utils::command::command_to_string;
 
 use crate::auth_type::{
-    deserialize_auth_type_from_string, serialize_auth_type_to_string, AuthType,
+    AuthType, deserialize_auth_type_from_string, serialize_auth_type_to_string,
 };
 
 use crate::errors::SftpManError;

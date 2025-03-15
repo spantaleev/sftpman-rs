@@ -1,16 +1,16 @@
 use std::thread;
 use std::time::Duration;
 
-use nix::sys::signal::kill;
 use nix::sys::signal::Signal;
+use nix::sys::signal::kill;
 use nix::unistd::Pid;
 
-use procfs::process::all_processes as get_all_processes;
-use procfs::process::Process;
 use procfs::ProcError;
+use procfs::process::Process;
+use procfs::process::all_processes as get_all_processes;
 
-use crate::errors::SftpManError;
 use crate::FilesystemMountDefinition;
+use crate::errors::SftpManError;
 
 pub fn sshfs_pid_by_definition(
     definition: &FilesystemMountDefinition,

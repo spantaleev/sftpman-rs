@@ -18,11 +18,15 @@ pub enum PreflightCheckError {
     CommandUnsuccessful(std::process::Command, std::process::Output),
 
     /// Happens when the default mount path (e.g. `/mnt/sshfs`) does not exist and cannot be prepared.
-    #[error("The default mount path (/mnt/sshfs) could not be prepared. Mounting there will fail until this is fixed")]
+    #[error(
+        "The default mount path (/mnt/sshfs) could not be prepared. Mounting there will fail until this is fixed"
+    )]
     DefaultBasePathIO(std::path::PathBuf, std::io::Error),
 
     /// Happens when a test directory (e.g. `/mnt/sshfs/_sftpman_test_1234567890`) under the default mount path could not be prepared.
-    #[error("A test directory under the default mount path (/mnt/sshfs) could not be prepared. Mounting there will fail until this is fixed")]
+    #[error(
+        "A test directory under the default mount path (/mnt/sshfs) could not be prepared. Mounting there will fail until this is fixed"
+    )]
     TestUnderBasePathIO(std::path::PathBuf, std::io::Error),
 }
 

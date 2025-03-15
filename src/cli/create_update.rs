@@ -1,14 +1,14 @@
 use std::path::PathBuf;
 
-use clap::{value_parser, Arg, ArgMatches, Command};
+use clap::{Arg, ArgMatches, Command, value_parser};
 use validator::Validate;
 use validator::ValidationErrors;
 
-use crate::errors::SftpManError;
-use crate::model::{FilesystemMountDefinition, DEFAULT_MOUNT_PATH_PREFIX};
-use crate::utils::validation::errors_to_string_list;
 use crate::AuthType;
 use crate::Manager;
+use crate::errors::SftpManError;
+use crate::model::{DEFAULT_MOUNT_PATH_PREFIX, FilesystemMountDefinition};
+use crate::utils::validation::errors_to_string_list;
 
 use super::exit;
 
@@ -113,7 +113,10 @@ pub fn run_create(manager: &Manager, matches: &ArgMatches) -> exit::Status {
 
         Err(err) => match err {
             SftpManError::JSON(_path, _serde_error) => {
-                log::error!("There already is a definition with an id of: {0}, but its data cannot be parsed", id);
+                log::error!(
+                    "There already is a definition with an id of: {0}, but its data cannot be parsed",
+                    id
+                );
                 exit::Status::Failure
             }
 
