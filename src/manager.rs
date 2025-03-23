@@ -175,7 +175,7 @@ impl Manager {
 
     /// Unmounts a filesystem definition (unless already unmounted) and removes its mount path from the filesystem hierarchy.
     ///
-    /// Unmounting is performed via a command call to `fusermount -u ..`,
+    /// Unmounting is performed via a command call to `fusermount3 -u ..` (preferred) or `fusermount -u ..` (fallback),
     /// which may fail on filesystems that are currently busy.
     /// In such cases, a fallback is performed - the `sshfs` process responsible for the mount gets terminated.
     pub fn umount(&self, definition: &FilesystemMountDefinition) -> Result<(), SftpManError> {
@@ -255,47 +255,64 @@ impl Manager {
         Ok(())
     }
 
-    /// Checks if we have everything needed to mount sshfs/SFTP filesystems.
+    /// Checks if we have everything needed to mount/unmount sshfs/SFTP filesystems.
     pub fn preflight_check(&self) -> Result<(), Vec<PreflightCheckError>> {
-        let mut cmds: Vec<Command> = Vec::new();
+        let mut cmd_alternative_groups: Vec<Vec<Command>> = Vec::new();
 
         let mut cmd_sshfs = Command::new("sshfs");
         cmd_sshfs.arg("-h");
-        cmds.push(cmd_sshfs);
+        cmd_alternative_groups.push(vec![cmd_sshfs]);
 
         let mut cmd_ssh = Command::new("ssh");
         cmd_ssh.arg("-V");
-        cmds.push(cmd_ssh);
+        cmd_alternative_groups.push(vec![cmd_ssh]);
 
-        let mut cmd_ssh = Command::new("fusermount");
-        cmd_ssh.arg("-V");
-        cmds.push(cmd_ssh);
+        // We favor `fusermount3`, but will also make do with `fusermount` if `fusermount3` is not available.
+        // See: https://github.com/spantaleev/sftpman-rs/issues/3
+        let mut cmd_fusermount3 = Command::new("fusermount3");
+        cmd_fusermount3.arg("-V");
+        let mut cmd_fusermount = Command::new("fusermount");
+        cmd_fusermount.arg("-V");
+        cmd_alternative_groups.push(vec![cmd_fusermount3, cmd_fusermount]);
 
         let mut errors: Vec<PreflightCheckError> = Vec::new();
 
-        for cmd in cmds {
-            log::debug!("Executing preflight-check command: {0:?}", cmd);
+        for cmd_group in cmd_alternative_groups {
+            let mut cmd_group_successful = false;
+            let mut cmd_group_errors: Vec<PreflightCheckError> = Vec::new();
 
-            if let Err(err) = run_command(cmd) {
-                log::error!("Failed to run preflight-check command: {0:?}", err);
+            for cmd in cmd_group {
+                log::debug!("Executing preflight-check command: {0:?}", cmd);
 
-                let preflight_check_error = match err {
-                    SftpManError::CommandExecution(cmd, err) => {
-                        Some(PreflightCheckError::CommandExecution(cmd, err))
-                    }
-                    SftpManError::CommandUnsuccessful(cmd, output) => {
-                        Some(PreflightCheckError::CommandUnsuccessful(cmd, output))
-                    }
-                    _ => {
-                        // This should never happen since run_command() only returns these two error variants
-                        log::error!("Unexpected error type: {0:?}", err);
-                        None
-                    }
-                };
+                if let Err(err) = run_command(cmd) {
+                    log::warn!("Failed to run preflight-check command: {0:?}", err);
 
-                if let Some(preflight_check_error) = preflight_check_error {
-                    errors.push(preflight_check_error);
+                    let preflight_check_error = match err {
+                        SftpManError::CommandExecution(cmd, err) => {
+                            Some(PreflightCheckError::CommandExecution(cmd, err))
+                        }
+                        SftpManError::CommandUnsuccessful(cmd, output) => {
+                            Some(PreflightCheckError::CommandUnsuccessful(cmd, output))
+                        }
+                        _ => {
+                            // This should never happen since run_command() only returns these two error variants
+                            log::error!("Unexpected error type: {0:?}", err);
+                            None
+                        }
+                    };
+
+                    if let Some(preflight_check_error) = preflight_check_error {
+                        cmd_group_errors.push(preflight_check_error);
+                    }
+                } else {
+                    log::debug!("Preflight-check command succeeded");
+                    cmd_group_successful = true;
+                    break;
                 }
+            }
+
+            if !cmd_group_successful {
+                errors.extend(cmd_group_errors);
             }
         }
 

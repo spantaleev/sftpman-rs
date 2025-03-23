@@ -232,13 +232,26 @@ impl FilesystemMountDefinition {
 
         let mut list: Vec<Command> = Vec::new();
 
-        // Unmounting is done via `fusermount -u`.
+        // Unmounting is done via `fusermount3 -u` or `fusermount -u`.
+        // We favor `fusermount3`, but will also make do with `fusermount` if `fusermount3` is not available.
+        // See: https://github.com/spantaleev/sftpman-rs/issues/3
+        //
         // Using `nix::mount::umount` or `nix::mount::umount2` sounds like a good idea,
         // but those require special privileges (`CAP_SYS_ADMIN``) and return `EPERM` to regular users.
 
-        let mut cmd = Command::new("fusermount");
-        cmd.arg("-u").arg(self.local_mount_path());
+        let is_fusermount3_available = std::process::Command::new("fusermount3")
+            .arg("-V")
+            .output()
+            .is_ok();
 
+        let cmd_name = if is_fusermount3_available {
+            "fusermount3"
+        } else {
+            "fusermount"
+        };
+
+        let mut cmd = Command::new(cmd_name);
+        cmd.arg("-u").arg(self.local_mount_path());
         list.push(cmd);
 
         Ok(list)
