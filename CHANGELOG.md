@@ -1,3 +1,7 @@
+# 2025-03-23 (Version 2.1.0)
+
+- (**Feature**) Add support for using `fusermount3` and falling back to `fusermount` if it's not available (related to [issue #3](https://github.com/spantaleev/sftpman-rs/issues/3)).
+
 # 2025-03-15 (Version 2.0.6)
 
 - (**Bugfix**) Fix regression (introduced in v2.0.5) in process ID detection of `sshfs` commands to allow force-unmounting busy filesystems
