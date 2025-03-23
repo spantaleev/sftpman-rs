@@ -13,6 +13,7 @@ use super::utils::command::{run_command, run_command_background};
 use super::utils::fs::{
     ensure_directory_recursively_created, get_mounts_under_path_prefix, remove_empty_directory,
 };
+use super::utils::fusermount::{create_fusermount_check_command, create_fusermount3_check_command};
 use super::utils::process::{ensure_process_killed, sshfs_pid_by_definition};
 
 const VFS_TYPE_SSHFS: &str = "fuse.sshfs";
@@ -269,11 +270,10 @@ impl Manager {
 
         // We favor `fusermount3`, but will also make do with `fusermount` if `fusermount3` is not available.
         // See: https://github.com/spantaleev/sftpman-rs/issues/3
-        let mut cmd_fusermount3 = Command::new("fusermount3");
-        cmd_fusermount3.arg("-V");
-        let mut cmd_fusermount = Command::new("fusermount");
-        cmd_fusermount.arg("-V");
-        cmd_alternative_groups.push(vec![cmd_fusermount3, cmd_fusermount]);
+        cmd_alternative_groups.push(vec![
+            create_fusermount3_check_command(),
+            create_fusermount_check_command(),
+        ]);
 
         let mut errors: Vec<PreflightCheckError> = Vec::new();
 
