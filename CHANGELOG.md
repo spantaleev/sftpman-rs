@@ -1,3 +1,8 @@
+# 2025-12-08 (Version 2.1.1)
+
+- (**Internal Improvement**) Dependency updates
+- (**Bugfix**) Minor [Fish shell](https://fishshell.com/) completions bugfixes
+
 # 2025-03-23 (Version 2.1.0)
 
 - (**Feature**) Add support for using `fusermount3` and falling back to `fusermount` if it's not available (related to [issue #3](https://github.com/spantaleev/sftpman-rs/issues/3)).
@@ -12,7 +17,7 @@
 
 # 2025-02-07 (Version 2.0.4)
 
-- Dependency updates
+- (**Internal Improvement**) Dependency updates
 
 - (**Bugfix**) Not erroring-out when the mounts configuration directory (e.g. `~/.config/sftpman/mounts`) doesn't exist yet (which is the case for new installations)
 
