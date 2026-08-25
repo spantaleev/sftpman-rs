@@ -1,3 +1,9 @@
+# 2026-08-25 (Version 2.1.2)
+
+- (**Internal Improvement**) Dependency updates (`clap` v4.6, `nix` v0.31, `rand` v0.10, `validator` v0.21)
+
+- (**Internal Improvement**) Lint warnings fixes
+
 # 2025-12-08 (Version 2.1.1)
 
 - (**Internal Improvement**) Dependency updates
