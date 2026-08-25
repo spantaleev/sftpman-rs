@@ -66,10 +66,7 @@ impl Manager {
                 continue;
             }
 
-            match Self::definition_from_config_path(&path) {
-                Ok(cfg) => list.push(cfg),
-                Err(err) => return Err(err),
-            }
+            list.push(Self::definition_from_config_path(&path)?);
         }
 
         list.sort_by_key(|item| item.id.clone());
