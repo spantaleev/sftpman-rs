@@ -1,9 +1,10 @@
+#[cfg(feature = "cli")]
 use std::process;
 
 #[cfg(feature = "cli")]
-use libsftpman::cli;
-
 use libsftpman::Manager;
+#[cfg(feature = "cli")]
+use libsftpman::cli;
 
 #[cfg(feature = "cli")]
 fn main() {
